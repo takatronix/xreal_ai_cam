@@ -6,40 +6,36 @@ using UnityEngine.XR.ARSubsystems;
 namespace Unity.AI.Cam
 {
     /// <summary>
-    /// XREAL One Pro & XREAL Eye 画像認識カメラコントローラー
-    /// リアルタイムカメラフィード表示と物体検知オーバーレイ機能
+    /// XREAL One Pro & XREAL Eye 生カメラレイヤー
+    /// ARFoundationからの生カメラフィードを表示する底層レイヤー
     /// </summary>
-    public class XREALImageRecognitionCamera : MonoBehaviour
+    public class XREALRawCameraLayer : MonoBehaviour
     {
         // YUV420テクスチャ（カメラデータ）
         Texture2D m_TextureY;
         Texture2D m_TextureV;
         Texture2D m_TextureU;
 
-        [Header("XREAL カメラ設定")]
+        [Header("XREAL 生カメラ設定")]
         [SerializeField]
         ARCameraManager m_CameraManager;
 
         [SerializeField]
         RawImage m_RawCameraImage;
 
-        [Header("表示制御")]
+        [Header("レイヤー制御")]
+        [SerializeField]
+        [Tooltip("生カメラレイヤーの表示/非表示")]
+        bool m_LayerEnabled = true;
+
         [SerializeField]
         [Range(0.0f, 1.0f)]
-        [Tooltip("カメラ映像の透過率 (0=完全透明, 1=完全不透明)")]
+        [Tooltip("生カメラ映像の透過率 (0=完全透明, 1=完全不透明)")]
         float m_CameraAlpha = 0.8f;
 
-        [Header("物体検知オーバーレイ")]
-        [SerializeField]
-        [Tooltip("物体検知結果を表示するオーバーレイUI")]
-        RawImage m_ObjectDetectionOverlay;
-
-        [SerializeField]
-        [Tooltip("検知結果のオーバーレイ色")]
-        Color m_OverlayColor = new Color(0, 1, 0, 0.5f); // 緑色半透明
-
-        // 前回の透過率（変更検知用）
+        // 前回の設定値（変更検知用）
         private float m_PreviousAlpha;
+        private bool m_PreviousEnabled;
 
         void OnEnable()
         {
@@ -57,8 +53,15 @@ namespace Unity.AI.Cam
 
         void Update()
         {
-            // 透過率の変更をリアルタイムで反映
-            if (Mathf.Abs(m_CameraAlpha - m_PreviousAlpha) > 0.001f)
+            // レイヤー表示/非表示の変更をリアルタイムで反映
+            if (m_LayerEnabled != m_PreviousEnabled)
+            {
+                UpdateLayerVisibility();
+                m_PreviousEnabled = m_LayerEnabled;
+            }
+
+            // 透過率の変更をリアルタイムで反映（レイヤーが有効な場合のみ）
+            if (m_LayerEnabled && Mathf.Abs(m_CameraAlpha - m_PreviousAlpha) > 0.001f)
             {
                 UpdateCameraAlpha();
                 m_PreviousAlpha = m_CameraAlpha;
@@ -123,11 +126,22 @@ namespace Unity.AI.Cam
         }
 
         /// <summary>
-        /// カメラ映像の透過率をリアルタイム更新
+        /// レイヤーの表示/非表示を更新
+        /// </summary>
+        void UpdateLayerVisibility()
+        {
+            if (m_RawCameraImage != null)
+            {
+                m_RawCameraImage.gameObject.SetActive(m_LayerEnabled);
+            }
+        }
+
+        /// <summary>
+        /// 生カメラ映像の透過率をリアルタイム更新
         /// </summary>
         void UpdateCameraAlpha()
         {
-            if (m_RawCameraImage != null)
+            if (m_RawCameraImage != null && m_LayerEnabled)
             {
                 var color = m_RawCameraImage.color;
                 color.a = m_CameraAlpha;
@@ -136,39 +150,39 @@ namespace Unity.AI.Cam
         }
 
         /// <summary>
-        /// 物体検知結果をオーバーレイ表示
+        /// レイヤーの表示/非表示をプログラムから制御
         /// </summary>
-        /// <param name="detectionTexture">検知結果のテクスチャ</param>
-        public void UpdateObjectDetectionOverlay(Texture2D detectionTexture)
+        /// <param name="enabled">表示する場合true</param>
+        public void SetLayerEnabled(bool enabled)
         {
-            if (m_ObjectDetectionOverlay != null && detectionTexture != null)
-            {
-                m_ObjectDetectionOverlay.texture = detectionTexture;
-                m_ObjectDetectionOverlay.color = m_OverlayColor;
-            }
+            m_LayerEnabled = enabled;
+            UpdateLayerVisibility();
         }
 
         /// <summary>
-        /// オーバーレイの透過率変更
-        /// </summary>
-        /// <param name="alpha">透過率 (0-1)</param>
-        public void SetOverlayAlpha(float alpha)
-        {
-            m_OverlayColor.a = Mathf.Clamp01(alpha);
-            if (m_ObjectDetectionOverlay != null)
-            {
-                m_ObjectDetectionOverlay.color = m_OverlayColor;
-            }
-        }
-
-        /// <summary>
-        /// カメラ透過率をプログラムから制御
+        /// 生カメラ透過率をプログラムから制御
         /// </summary>
         /// <param name="alpha">透過率 (0-1)</param>
         public void SetCameraAlpha(float alpha)
         {
             m_CameraAlpha = Mathf.Clamp01(alpha);
-            UpdateCameraAlpha();
+            if (m_LayerEnabled)
+            {
+                UpdateCameraAlpha();
+            }
+        }
+
+        /// <summary>
+        /// 現在のカメラテクスチャを取得（他のレイヤーで使用）
+        /// </summary>
+        /// <returns>Y, U, V テクスチャの配列</returns>
+        public Texture2D[] GetCameraTextures()
+        {
+            if (m_TextureY != null && m_TextureU != null && m_TextureV != null)
+            {
+                return new Texture2D[] { m_TextureY, m_TextureU, m_TextureV };
+            }
+            return null;
         }
     }
 }
