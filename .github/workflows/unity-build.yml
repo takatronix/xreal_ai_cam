@@ -1,4 +1,4 @@
-name: Unity Build - XReal AI Camera
+name: Unity Build - XREAL AI Camera
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build XReal AI Camera
+    name: Build XREAL AI Camera
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -49,7 +49,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: xreal-ai-camera-apk
+          name: xreal-ai-camera-image-recognition-apk
           path: build/xreal_ai_cam.apk
 
       # Upload to Release (on tag)

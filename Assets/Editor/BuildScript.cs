@@ -8,7 +8,7 @@ public class BuildScript
     [MenuItem("Build/Build Android")]
     public static void BuildAndroid()
     {
-        Debug.Log("Starting XReal AI Camera Android build...");
+        Debug.Log("Starting XREAL AI Camera Android build...");
         
         // Build settings
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -20,15 +20,15 @@ public class BuildScript
         // Android specific settings
         PlayerSettings.Android.bundleVersionCode = 1;
         PlayerSettings.bundleVersion = "1.0.0";
-        PlayerSettings.companyName = "XReal AI Team";
-        PlayerSettings.productName = "XReal AI Camera";
+        PlayerSettings.companyName = "XREAL AI Team";
+        PlayerSettings.productName = "XREAL AI Camera - Image Recognition";
         
-        // Android XR settings - Updated for XReal compatibility
+        // Android XR settings - Updated for XREAL compatibility
         PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel28;
         PlayerSettings.Android.targetSdkVersion = AndroidSdkVersions.AndroidApiLevel34;
         PlayerSettings.Android.useCustomKeystore = false;
         
-        Debug.Log("Build settings configured for XReal device...");
+        Debug.Log("Build settings configured for XREAL One Pro & XREAL Eye devices...");
         
         // Start build
         BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);

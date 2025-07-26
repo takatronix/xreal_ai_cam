@@ -1,4 +1,5 @@
 # GitHub Actions Unity クラウドビルド設定手順
+## XREAL One Pro & XREAL Eye 画像認識プロジェクト
 
 ## 🔑 必要なSecrets設定
 
@@ -29,8 +30,9 @@ ANDROID_KEYALIAS_PASS: Key aliasのパスワード
 
 ### ⚠️ 制限・課題
 
-#### 1. **XReal SDK問題**
-- XReal SDK（NRSDK）はプライベートSDK
+#### 1. **XREAL SDK問題**
+- XREAL SDK（NRSDK）はプライベートSDK
+- XREAL One Pro & XREAL Eye対応
 - GitHub Actionsでの自動DLは困難
 - **解決方法**: SDKをリポジトリに含める（容量注意）
 
@@ -58,7 +60,7 @@ ANDROID_KEYALIAS_PASS: Key aliasのパスワード
 
 ### ❌ 避けるべき場面
 - **高速イテレーション**: ローカル47秒 vs クラウド15分
-- **プライベートSDK**: XReal SDKの権利問題
+- **プライベートSDK**: XREAL SDKの権利問題
 - **コスト重視**: Personal ライセンスの制限
 
 ## 🔧 代替案

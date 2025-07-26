@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xreal.ai.camera">
 
-    <!-- Permissions -->
+    <!-- Permissions for XREAL One Pro & XREAL Eye Image Recognition -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
     
-    <!-- XR Required features -->
+    <!-- XREAL Required features -->
     <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 
@@ -21,7 +21,7 @@
         tools:replace="android:allowBackup"
         android:allowBackup="false">
 
-        <!-- XReal Unity Activity - Override XR Manifest -->
+        <!-- XREAL Unity Activity - Override XR Manifest -->
         <activity
             android:name="com.unity3d.player.UnityPlayerActivity"
             android:launchMode="singleTask"
@@ -36,14 +36,14 @@
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
 
-        <!-- XReal SDK Configuration -->
+        <!-- XREAL SDK Configuration for One Pro & Eye -->
         <meta-data
             android:name="nreal_sdk"
             android:value="true"
             tools:replace="android:value" />
         <meta-data
             android:name="com.nreal.supportDevices"
-            android:value="1|XrealLight|2|XrealAir"
+            android:value="1|XrealLight|2|XrealAir|3|XrealOnePro|4|XrealEye"
             tools:replace="android:value" />
 
     </application>
