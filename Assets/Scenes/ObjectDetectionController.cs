@@ -10,9 +10,7 @@ namespace Unity.AI.Cam
     public class ObjectDetectionController : MonoBehaviour
     {
         [Header("物体検知設定")]
-        [SerializeField]
-        [Tooltip("物体検知カメラの参照")]
-        XREALImageRecognitionCamera m_CameraController;
+        // Note: レイヤー管理システム導入により、直接参照は不要
 
         [SerializeField]
         [Tooltip("検知結果表示用UI")]
@@ -43,24 +41,12 @@ namespace Unity.AI.Cam
 
         void Start()
         {
-            // 初期化
-            if (m_CameraController == null)
-            {
-                m_CameraController = FindObjectOfType<XREALImageRecognitionCamera>();
-            }
-
             // 検知結果表示用テクスチャ作成
             CreateDetectionTexture();
         }
 
         void Update()
         {
-            // オーバーレイ透過率のリアルタイム制御
-            if (m_CameraController != null)
-            {
-                m_CameraController.SetOverlayAlpha(m_OverlayAlpha);
-            }
-
             // 検知結果の自動非表示
             if (Time.time - m_LastDetectionTime > m_DisplayDuration)
             {
@@ -102,11 +88,7 @@ namespace Unity.AI.Cam
             // 検知情報テキスト更新
             UpdateDetectionText();
 
-            // オーバーレイに反映
-            if (m_CameraController != null)
-            {
-                m_CameraController.UpdateObjectDetectionOverlay(m_DetectionTexture);
-            }
+            // 検知結果表示オーバーレイに反映（レイヤー管理システムで処理）
         }
 
         /// <summary>
@@ -207,11 +189,7 @@ namespace Unity.AI.Cam
                 m_DetectionTexture.SetPixels(pixels);
                 m_DetectionTexture.Apply();
 
-                // オーバーレイ更新
-                if (m_CameraController != null)
-                {
-                    m_CameraController.UpdateObjectDetectionOverlay(m_DetectionTexture);
-                }
+                // オーバーレイクリア（レイヤー管理システムで処理）
             }
 
             // テキストクリア
