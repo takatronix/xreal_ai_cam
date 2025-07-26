@@ -212,8 +212,9 @@ GameObject:
   - component: {fileID: 485666364}
   - component: {fileID: 485666363}
   - component: {fileID: 485666367}
+  - component: {fileID: 485666368}
   m_Layer: 5
-  m_Name: RGBCamera
+  m_Name: 'XREALCameraManager '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,13 +310,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485666362}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fcea358e4907c418af4742a3c47561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_CameraManager: {fileID: 1165113641}
   m_RawCameraImage: {fileID: 1474869893}
+--- !u!114 &485666368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485666362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac04402371db44d0b98a0d13ffadc70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CameraManager: {fileID: 1165113641}
+  m_RawCameraImage: {fileID: 1474869893}
+  m_LayerEnabled: 1
+  m_CameraAlpha: 0.8
 --- !u!1 &1015722065
 GameObject:
   m_ObjectHideFlags: 0
