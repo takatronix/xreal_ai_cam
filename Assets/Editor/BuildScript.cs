@@ -12,7 +12,7 @@ public class BuildScript
         
         // Build settings
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = new[] { "Assets/Scenes/RGBCamera.unity" };
+        buildPlayerOptions.scenes = new[] { "Assets/Scenes/XREALAICameraScene.unity" };
         buildPlayerOptions.locationPathName = "Build/xreal_ai_cam.apk";
         buildPlayerOptions.target = BuildTarget.Android;
         buildPlayerOptions.options = BuildOptions.None;
